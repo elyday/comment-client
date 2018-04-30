@@ -1,7 +1,7 @@
 {
-  "name": "appli",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "comment-client",
+  "version": "0.1.0",
+  "license": "GPL-3.0-only",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "auth0-js": "^9.5.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
