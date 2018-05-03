@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Router} from "@angular/router";
+import {CanActivate, Router} from '@angular/router';
 import * as auth0 from 'auth0-js';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements CanActivate {
 
   auth0 = new auth0.WebAuth({
     clientID: 'HP1oF870PAPrSA7VAOU3kN8H9C37ljtk',
     domain: 'comment-server.eu.auth0.com',
     responseType: 'token id_token',
     audience: 'https://comment-server.eu.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: 'http://localhost:4200/dashboard',
     scope: 'openid'
   });
 
@@ -26,9 +26,9 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/dashboard']);
       } else if (err) {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/login']);
         console.log(err);
       }
     });
@@ -51,6 +51,15 @@ export class AuthService {
   public isAuthenticated(): boolean {
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  canActivate(): boolean {
+    if (!this.isAuthenticated()) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+
+    return true;
   }
 
 }
