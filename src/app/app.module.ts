@@ -9,11 +9,13 @@ import {SiteNotFoundComponent} from './component/site-not-found/site-not-found.c
 import {AuthService} from './service/auth.service';
 import {DashboardComponent} from './component/dashboard/dashboard.component';
 import {LoginComponent} from './component/login/login.component';
+import { AccessDeniedComponent } from './component/access-denied/access-denied.component';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthService]},
   {path: 'auth0', component: Auth0Component},
   {path: 'login', component: LoginComponent},
+  {path: 'access-denied', component: AccessDeniedComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthService]},
   {path: '**', component: SiteNotFoundComponent}
 ];
@@ -24,7 +26,8 @@ const appRoutes: Routes = [
     Auth0Component,
     SiteNotFoundComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    AccessDeniedComponent
   ],
   imports: [
     BrowserModule,
