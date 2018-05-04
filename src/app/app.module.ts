@@ -9,7 +9,11 @@ import {SiteNotFoundComponent} from './component/site-not-found/site-not-found.c
 import {AuthService} from './service/auth.service';
 import {DashboardComponent} from './component/dashboard/dashboard.component';
 import {LoginComponent} from './component/login/login.component';
-import { AccessDeniedComponent } from './component/access-denied/access-denied.component';
+import {AccessDeniedComponent} from './component/access-denied/access-denied.component';
+import {HttpClientModule} from '@angular/common/http';
+import {BlogInformationService} from './service/blog-information.service';
+import {BlogComponent} from './component/blog/blog.component';
+import {FormsModule} from '@angular/forms';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthService]},
@@ -17,6 +21,7 @@ const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'access-denied', component: AccessDeniedComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthService]},
+  {path: 'blog', component: BlogComponent, canActivate: [AuthService]},
   {path: '**', component: SiteNotFoundComponent}
 ];
 
@@ -27,7 +32,8 @@ const appRoutes: Routes = [
     SiteNotFoundComponent,
     DashboardComponent,
     LoginComponent,
-    AccessDeniedComponent
+    AccessDeniedComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +41,11 @@ const appRoutes: Routes = [
       appRoutes,
       {enableTracing: true}
     ),
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, BlogInformationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
