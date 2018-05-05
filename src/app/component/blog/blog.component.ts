@@ -24,22 +24,29 @@ export class BlogComponent implements OnInit {
     refreshBtn.innerText = 'Lade...';
 
     this.blogInformationService.getAll().subscribe(data => {
-        this.blogInformation = data['data'];
-        refreshBtn.removeAttribute('disabled');
-        refreshBtn.innerText = 'Aktualisieren';
-      },
-      error => {
-        this.blogInformation = null;
-        refreshBtn.removeAttribute('disabled');
-        refreshBtn.innerText = 'Aktualisieren';
-        console.log(error);
-      });
+      this.blogInformation = data['data'];
+      refreshBtn.removeAttribute('disabled');
+      refreshBtn.innerText = 'Aktualisieren';
+    }, error => {
+      this.blogInformation = null;
+      refreshBtn.removeAttribute('disabled');
+      refreshBtn.innerText = 'Aktualisieren';
+      console.log(error);
+    });
   }
 
   public openEditModal(content, information: BlogInformation) {
-    this.singleBlogInformation = information;
+    this.singleBlogInformation = new BlogInformation(information.hash, information.name, information.description, information.url);
     this.modalService.open(content, {size: 'lg'}).result.then((result) => {
-      console.log(this.singleBlogInformation);
+      if (result === 'save') {
+        /*this.blogInformationService.update(this.singleBlogInformation).subscribe(data => {
+          console.log(data);
+        }, error => {
+          console.log(error);
+        });*/
+
+        this.blogInformationService.update(this.singleBlogInformation);
+      }
     }, (reason) => {
       console.log(reason);
     });

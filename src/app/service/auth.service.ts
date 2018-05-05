@@ -17,6 +17,10 @@ export class AuthService implements CanActivate {
   constructor(public router: Router) {
   }
 
+  static getToken(): string {
+    return localStorage.getItem('access_token');
+  }
+
   public login(): void {
     this.auth0.authorize();
   }
