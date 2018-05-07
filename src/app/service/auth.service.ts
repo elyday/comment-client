@@ -9,9 +9,9 @@ export class AuthService implements CanActivate {
     clientID: 'HP1oF870PAPrSA7VAOU3kN8H9C37ljtk',
     domain: 'comment-server.eu.auth0.com',
     responseType: 'token id_token',
-    audience: 'https://comment-server.eu.auth0.com/userinfo',
+    audience: 'https://comment.eynet.xyz/',
     redirectUri: 'http://localhost:4200/dashboard',
-    scope: 'openid'
+    scope: 'email'
   });
 
   constructor(public router: Router) {
@@ -29,7 +29,7 @@ export class AuthService implements CanActivate {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
-        this.setSession(authResult);
+        AuthService.setSession(authResult);
         this.router.navigate(['/dashboard']);
       } else if (err) {
         this.router.navigate(['/login']);
@@ -38,7 +38,7 @@ export class AuthService implements CanActivate {
     });
   }
 
-  private setSession(authResult): void {
+  private static setSession(authResult): void {
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);

@@ -39,13 +39,11 @@ export class BlogComponent implements OnInit {
     this.singleBlogInformation = new BlogInformation(information.hash, information.name, information.description, information.url);
     this.modalService.open(content, {size: 'lg'}).result.then((result) => {
       if (result === 'save') {
-        /*this.blogInformationService.update(this.singleBlogInformation).subscribe(data => {
-          console.log(data);
+        this.blogInformationService.update(this.singleBlogInformation).subscribe(data => {
+          this.getBlogInformation();
         }, error => {
           console.log(error);
-        });*/
-
-        this.blogInformationService.update(this.singleBlogInformation);
+        });
       }
     }, (reason) => {
       console.log(reason);

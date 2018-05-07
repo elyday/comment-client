@@ -1,3 +1,4 @@
+///<reference path="../../node_modules/@auth0/angular-jwt/index.d.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +15,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BlogInformationService} from './service/blog-information.service';
 import {BlogComponent} from './component/blog/blog.component';
 import {FormsModule} from '@angular/forms';
+import {JwtModule} from '@auth0/angular-jwt';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthService]},
@@ -43,9 +45,18 @@ const appRoutes: Routes = [
     ),
     NgbModule.forRoot(),
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: AuthService.getToken,
+        whitelistedDomains: ['localhost:8000']
+      }
+    }),
     FormsModule
   ],
-  providers: [AuthService, BlogInformationService],
+  providers: [
+    AuthService,
+    BlogInformationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

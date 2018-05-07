@@ -10,8 +10,4 @@ export class AppComponent {
   constructor(public auth: AuthService, private router: Router) {
     auth.handleAuthentication();
   }
-
-  public checkActiveSite(path: string) {
-    return path;
-  }
 }

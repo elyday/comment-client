@@ -25,31 +25,10 @@ export class BlogInformationService {
   }
 
   update(blogInformation: BlogInformation) {
-    const api = new ExtendedRequest({
-      host: 'localhost',
-      port: 8000,
-      auth: {
-        provider: 'bearer',
-        token: AuthService.getToken()
-      }
-    });
-
-    api.request(this.endPoint, {
-      method: 'PUT',
-      body: blogInformation
-    }, (error, response) => {
-      if (error) {
-        console.log(error);
-      }
-      if (response) {
-        console.log(response);
-      }
-    });
+    return this.http.put(this.endPoint, blogInformation);
   }
 
   delete(blogInformation: BlogInformation) {
 
   }
-
-
 }
