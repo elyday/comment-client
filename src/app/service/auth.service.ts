@@ -1,69 +1,47 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, Router} from '@angular/router';
-import * as auth0 from 'auth0-js';
+import {Router} from '@angular/router';
+import * as OktaAuth from '@okta/okta-auth-js';
 
 @Injectable()
-export class AuthService implements CanActivate {
-
-  auth0 = new auth0.WebAuth({
-    clientID: 'HP1oF870PAPrSA7VAOU3kN8H9C37ljtk',
-    domain: 'comment-server.eu.auth0.com',
-    responseType: 'token id_token',
-    audience: 'https://comment-server.eu.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/dashboard',
-    scope: 'openid'
+export class AuthService {
+  private oktaAuth = new OktaAuth({
+    url: 'https://dev-889140.oktapreview.com',
+    clientId: '0oaewv5hq7U2hgDZL0h7',
+    issuer: 'https://dev-889140.oktapreview.com/oauth2/default',
+    redirectUri: 'http://localhost:4200/callback',
   });
 
-  constructor(public router: Router) {
+  constructor(private router: Router) {
   }
 
-  static getToken(): string {
-    return localStorage.getItem('access_token');
+  isAuthenticated() {
+    return !!this.oktaAuth.tokenManager.get('accessToken');
   }
 
-  public login(): void {
-    this.auth0.authorize();
-  }
-
-  public handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        window.location.hash = '';
-        this.setSession(authResult);
-        this.router.navigate(['/dashboard']);
-      } else if (err) {
-        this.router.navigate(['/login']);
-        console.log(err);
-      }
+  login() {
+    // Launches the login redirect.
+    this.oktaAuth.token.getWithRedirect({
+      responseType: ['id_token', 'token'],
+      scopes: ['openid', 'email', 'profile']
     });
   }
 
-  private setSession(authResult): void {
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
+  async handleAuthentication() {
+    const tokens = await this.oktaAuth.token.parseFromUrl();
+    tokens.forEach(token => {
+      if (token.idToken) {
+        this.oktaAuth.tokenManager.add('idToken', token);
+      }
+      if (token.accessToken) {
+        this.oktaAuth.tokenManager.add('accessToken', token);
+      }
+    });
+    this.router.navigate(['/dashboard']);
   }
 
-  public logout(): void {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-    this.router.navigate(['/']);
-  }
-
-  public isAuthenticated(): boolean {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
-  }
-
-  canActivate(): boolean {
-    if (!this.isAuthenticated()) {
-      this.router.navigate(['/login']);
-      return false;
-    }
-
-    return true;
+  async logout() {
+    this.oktaAuth.tokenManager.clear();
+    await this.oktaAuth.signOut();
   }
 
 }
