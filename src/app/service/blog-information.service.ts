@@ -2,14 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {BlogInformation} from '../models/BlogInformation';
-import {AuthService} from './auth.service';
 import {ExtendedRequest} from 'extended-request';
 
 @Injectable()
 export class BlogInformationService {
   private endPoint = environment.apiUrl + '/api/blog';
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private http: HttpClient) {
   }
 
   getAll() {
@@ -21,7 +20,7 @@ export class BlogInformationService {
   }
 
   create(blogInformation: BlogInformation) {
-    return this.http.post(this.endPoint + '/add', blogInformation);
+    return this.http.post(this.endPoint, blogInformation);
   }
 
   update(blogInformation: BlogInformation) {
@@ -29,6 +28,6 @@ export class BlogInformationService {
   }
 
   delete(blogInformation: BlogInformation) {
-
+    return this.http.delete(this.endPoint + '/' + blogInformation.hash);
   }
 }

@@ -1,6 +1,19 @@
 <h1>Blog Verwaltung</h1>
 <button id="refreshBtn" class="btn btn-primary" (click)="getBlogInformation()">Aktualisieren</button>
+<button id="createBtn" class="btn btn-success" (click)="openCreateModal(editModal)">Hinzufügen</button>
 <br><br>
+
+<div class="alert alert-danger" *ngIf="submitRequest && errorString != null && errorString != '' else success">
+  {{errorString}}
+</div>
+
+
+<ng-template #success>
+  <div class="alert alert-success" *ngIf="submitRequest">
+    Die Aktion war erfolgreich.
+  </div>
+</ng-template>
+
 <table class="table table-striped" *ngIf="blogInformation.length; else noBlogFound">
   <thead>
   <tr>
@@ -22,14 +35,14 @@
 </table>
 
 <ng-template #noBlogFound>
-  <div class="alert alert-danger">
+  <div class="alert alert-warning">
     Es wurde kein Blog Eintrag gefunden.
   </div>
 </ng-template>
 
 <ng-template #editModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Blog {{singleBlogInformation.name}} bearbeiten</h4>
+    <h4 class="modal-title">Blog {{singleBlogInformation.name}} {{createMode ? "erstellen" : "bearbeiten"}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -62,14 +75,15 @@
 <ng-template #deleteModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Blog {{singleBlogInformation.name}} löschen</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Dismiss edit')">
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>One fine body&hellip;</p>
+    <p>Du bist dabei einen Blog Eintrag zu löschen. <b>Bist du dir sicher?</b></p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Close edit')">Close</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('yes')">Ja</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('close')">Nein</button>
   </div>
 </ng-template>

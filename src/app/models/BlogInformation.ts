@@ -5,10 +5,6 @@ export class BlogInformation {
   public url: string;
 
 
-  constructor(hash: string, name: string, description: string, url: string) {
-    this.hash = hash;
-    this.name = name;
-    this.description = description;
-    this.url = url;
+  constructor() {
   }
 }
