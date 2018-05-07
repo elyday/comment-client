@@ -21,6 +21,13 @@ export class AuthService implements CanActivate {
     return localStorage.getItem('access_token');
   }
 
+  private static setSession(authResult): void {
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
+  }
+
   public login(): void {
     this.auth0.authorize();
   }
@@ -36,13 +43,6 @@ export class AuthService implements CanActivate {
         console.log(err);
       }
     });
-  }
-
-  private static setSession(authResult): void {
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
   }
 
   public logout(): void {

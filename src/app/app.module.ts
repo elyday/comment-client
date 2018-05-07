@@ -1,4 +1,3 @@
-///<reference path="../../node_modules/@auth0/angular-jwt/index.d.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -16,15 +15,48 @@ import {BlogInformationService} from './service/blog-information.service';
 import {BlogComponent} from './component/blog/blog.component';
 import {FormsModule} from '@angular/forms';
 import {JwtModule} from '@auth0/angular-jwt';
+import {CommentComponent} from './component/comment/comment.component';
+import {CommentService} from './service/comment.service';
+import {StripHtmlPipe} from './helper/strip-html.pipe';
+import {TrimHtmlPipe} from './helper/trim-html.pipe';
 
 const appRoutes: Routes = [
-  {path: '', component: DashboardComponent, canActivate: [AuthService]},
-  {path: 'auth0', component: Auth0Component},
-  {path: 'login', component: LoginComponent},
-  {path: 'access-denied', component: AccessDeniedComponent},
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthService]},
-  {path: 'blog', component: BlogComponent, canActivate: [AuthService]},
-  {path: '**', component: SiteNotFoundComponent}
+  {
+    path: '',
+    component: DashboardComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'auth0',
+    component: Auth0Component
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'access-denied',
+    component: AccessDeniedComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'blog',
+    component: BlogComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'comment',
+    component: CommentComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: '**',
+    component: SiteNotFoundComponent
+  }
 ];
 
 @NgModule({
@@ -35,7 +67,10 @@ const appRoutes: Routes = [
     DashboardComponent,
     LoginComponent,
     AccessDeniedComponent,
-    BlogComponent
+    BlogComponent,
+    CommentComponent,
+    StripHtmlPipe,
+    TrimHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -55,7 +90,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthService,
-    BlogInformationService
+    BlogInformationService,
+    CommentService
   ],
   bootstrap: [AppComponent]
 })

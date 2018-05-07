@@ -1,0 +1,64 @@
+<h1>Kommentare</h1>
+<button id="refreshBtn" class="btn btn-primary" (click)="getComments()">Aktualisieren</button>
+<br><br>
+
+<div class="alert alert-danger" *ngIf="errorString != null && errorString != '' else success">
+  {{errorString}}
+</div>
+
+<ng-template #success>
+  <div class="alert alert-success" *ngIf="submitRequest">
+    Die Aktion war erfolgreich.
+  </div>
+</ng-template>
+
+<table class="table table-striped" *ngIf="comments.length; else noCommentsFound">
+  <thead>
+  <tr>
+    <th>Hash</th>
+    <th>Author</th>
+    <th>Titel</th>
+    <th>Inhalt</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let comment of comments">
+    <td>{{comment.hash}}></td>
+    <td>{{comment.authorName}} {{comment.authorMail ? "<" + comment.authorMail + ">" : ""}}</td>
+    <td>{{comment.title}}</td>
+    <td>{{comment.content | stripHtml | trimHtml}}</td>
+    <td>
+      <span class="badge badge-info" (click)="openDetailModal(detailsModal, comment)">Details</span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #noCommentsFound>
+  <div class="alert alert-warning">
+    Es wurden keine Kommentare gefunden.
+  </div>
+</ng-template>
+
+<ng-template #detailsModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Kommentardetails</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-header">Kommentar: {{ singleComment.title }}</div>
+      <div class="card-body" [innerHtml]="singleComment.content">
+      </div>
+      <div class="card-footer">
+        <span class="badge badge-info"><i class="fa fa-user"></i> {{ singleComment.authorName }} {{ singleComment.authorMail ? "<" + singleComment.authorMail + ">" : "" }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('close')">Close</button>
+  </div>
+</ng-template>
