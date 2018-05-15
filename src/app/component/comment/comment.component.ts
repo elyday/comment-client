@@ -49,15 +49,62 @@ export class CommentComponent extends HandleError implements OnInit {
     this.modalService.open(content, {size: 'lg'});
   }
 
-  protected handleError(error: HttpErrorResponse) {
-    const errorMessage = error.error.data['error-code'];
+  openEditModal(content, comment: Comment) {
+    this.errorString = '';
+    this.singleComment = new Comment();
+    this.singleComment.hash = comment.hash;
+    this.singleComment.articleHash = comment.articleHash;
+    this.singleComment.authorName = comment.authorName;
+    this.singleComment.authorMail = comment.authorMail;
+    this.singleComment.title = comment.title;
+    this.singleComment.content = comment.content;
 
+    this.modalService.open(content, {size: 'lg'}).result.then((result) => {
+      if (result === 'save') {
+        this.commentService.update(this.singleComment).subscribe(data => {
+          this.submitRequest = true;
+          this.getComments();
+        }, (error: HttpErrorResponse) => {
+          this.handleError(error);
+        });
+      }
+    }, (reason) => {
+      console.log(reason);
+    });
+  }
+
+  openDeleteModal(content, comment: Comment) {
+    this.errorString = '';
+    this.singleComment = new Comment();
+    this.singleComment.hash = comment.hash;
+    this.singleComment.articleHash = comment.articleHash;
+    this.singleComment.authorName = comment.authorName;
+    this.singleComment.authorMail = comment.authorMail;
+    this.singleComment.title = comment.title;
+    this.singleComment.content = comment.content;
+
+    this.modalService.open(content, {size: 'lg'}).result.then((result) => {
+      if (result === 'yes') {
+        this.commentService.delete(this.singleComment).subscribe(data => {
+          this.submitRequest = true;
+          this.getComments();
+        }, (error: HttpErrorResponse) => {
+          this.handleError(error);
+        });
+      }
+    }, (reason) => {
+      console.log(reason);
+    });
+  }
+
+  protected handleError(error: HttpErrorResponse) {
+    super.handleError(error);
+    const errorMessage = error.error.data['error-code'];
     if (error.status === 404) {
       if (errorMessage === 'comment-not-found') {
         this.errorString = 'Der gewählte Kommentar wurde nicht gefunden!';
       }
-    }
 
-    super.handleError(error);
+    }
   }
 }

@@ -6,7 +6,7 @@ export abstract class HandleError {
 
   protected handleError(error: HttpErrorResponse) {
     this.submitRequest = true;
-    if (this.errorString !== '') {
+    if (this.errorString === '') {
       const errorMessage = error.error.data['error-code'];
       if (error.status === 404) {
         this.errorString = 'Es trat ein unbekannter Fehler auf (404)!';

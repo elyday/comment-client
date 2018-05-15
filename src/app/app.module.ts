@@ -19,6 +19,7 @@ import {CommentComponent} from './component/comment/comment.component';
 import {CommentService} from './service/comment.service';
 import {StripHtmlPipe} from './helper/strip-html.pipe';
 import {TrimHtmlPipe} from './helper/trim-html.pipe';
+import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 
 const appRoutes: Routes = [
   {
@@ -86,7 +87,9 @@ const appRoutes: Routes = [
         whitelistedDomains: ['localhost:8000']
       }
     }),
-    FormsModule
+    FormsModule,
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot()
   ],
   providers: [
     AuthService,
