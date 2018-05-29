@@ -21,6 +21,8 @@ import {StripHtmlPipe} from './helper/strip-html.pipe';
 import {TrimHtmlPipe} from './helper/trim-html.pipe';
 import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 import {CommentFilterComponent} from './component/comment-filter/comment-filter.component';
+import {ArticleComponent} from './component/article/article.component';
+import {ArticleService} from "./service/article.service";
 
 const appRoutes: Routes = [
   {
@@ -51,6 +53,11 @@ const appRoutes: Routes = [
     canActivate: [AuthService]
   },
   {
+    path: 'blog/:hash/articles',
+    component: ArticleComponent,
+    canActivate: [AuthService]
+  },
+  {
     path: 'comment',
     component: CommentComponent,
     canActivate: [AuthService]
@@ -73,7 +80,8 @@ const appRoutes: Routes = [
     CommentComponent,
     StripHtmlPipe,
     TrimHtmlPipe,
-    CommentFilterComponent
+    CommentFilterComponent,
+    ArticleComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +104,8 @@ const appRoutes: Routes = [
   providers: [
     AuthService,
     BlogInformationService,
-    CommentService
+    CommentService,
+    ArticleService
   ],
   bootstrap: [AppComponent]
 })

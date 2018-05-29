@@ -1,0 +1,100 @@
+<div *ngIf="blogInformation; else noBlogFound">
+  <h1>Artikel Verwaltung - Blog {{ blogInformation.name }}</h1>
+  <button id="refreshBtn" class="btn btn-primary" (click)="getBlogInformation()">Aktualisieren</button>
+  <button id="createBtn" class="btn btn-success" (click)="openCreateModal(editModal)">Hinzufügen</button>
+  <br><br>
+
+  <div class="alert alert-danger" *ngIf="submitRequest && errorString != null && errorString != '' else success">
+    {{errorString}}
+  </div>
+
+  <ng-template #success>
+    <div class="alert alert-success" *ngIf="submitRequest">
+      Die Aktion war erfolgreich.
+    </div>
+  </ng-template>
+
+  <table class="table table-striped" *ngIf="articleList.length; else noArticleFound">
+    <thead>
+    <tr>
+      <th>Hash</th>
+      <th>Titel</th>
+      <th>Autor</th>
+      <th>Link</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let article of articleList">
+      <td>{{article.hash}}</td>
+      <td>{{article.title}}</td>
+      <td>{{article.author}}</td>
+      <td><a href="{{article.url}}" target="_blank">{{article.url}}</a></td>
+      <td>
+        <span class="badge badge-warning" (click)="openEditModal(editModal, article)">Bearbeiten</span>
+        <span class="badge badge-danger" (click)="openDeleteModal(deleteModal, article)">Löschen</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noBlogFound>
+  <div class="alert alert-danger">
+    Es wurde kein passender Blog zum angegebenen Hash gefunden!
+  </div>
+</ng-template>
+
+<ng-template #noArticleFound>
+  <div class="alert alert-warning">
+    Es wurden keine Artikel zu diesem Blog gefunden!
+  </div>
+</ng-template>
+
+<ng-template #editModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Artikel {{singleArticle.title}} {{createMode ? "erstellen" : "bearbeiten"}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #blogForm="ngForm">
+      <div class="form-group">
+        <label for="articleTitle">Titel</label>
+        <input type="text" class="form-control" id="articleTitle" name="articleTitle" placeholder="Titel.."
+               value="{{singleArticle.title}}" [(ngModel)]="singleArticle.title" required>
+      </div>
+      <div class="form-group">
+        <label for="articleAuthor">Autor</label>
+        <input type="text" class="form-control" id="articleAuthor" name="articleAuthor" placeholder="Autor.."
+               value="{{singleArticle.author}}" [(ngModel)]="singleArticle.author" required>
+      </div>
+      <div class="form-group">
+        <label for="blogUrl">URL</label>
+        <input type="text" class="form-control" id="blogUrl" name="blogUrl" placeholder="URL..."
+               value="{{singleArticle.url}}" [(ngModel)]="singleArticle.url" required>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="c('save')">Speichern</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('close')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Artikel {{singleArticle.title}} löschen</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Du bist dabei einen Artikel zu löschen. <b>Bist du dir sicher?</b></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="c('yes')">Ja</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('close')">Nein</button>
+  </div>
+</ng-template>

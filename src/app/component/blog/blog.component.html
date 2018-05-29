@@ -27,8 +27,11 @@
     <td>{{blog.hash}}</td>
     <td>{{blog.name}}</td>
     <td><a href="{{blog.url}}" target="_blank">{{blog.url}}</a></td>
-    <td><span class="badge badge-info" (click)="openEditModal(editModal, blog)">Bearbeiten</span> <span
-      class="badge badge-danger" (click)="openDeleteModal(deleteModal, blog)">Löschen</span></td>
+    <td>
+      <span class="badge badge-info" routerLink="{{blog.hash}}/articles">Artikel</span>
+      <span class="badge badge-warning" (click)="openEditModal(editModal, blog)">Bearbeiten</span>
+      <span class="badge badge-danger" (click)="openDeleteModal(deleteModal, blog)">Löschen</span>
+    </td>
   </tr>
   </tbody>
 </table>

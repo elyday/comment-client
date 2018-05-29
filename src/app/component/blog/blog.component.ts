@@ -32,7 +32,7 @@ export class BlogComponent extends HandleError implements OnInit {
       refreshBtn.removeAttribute('disabled');
       refreshBtn.innerText = 'Aktualisieren';
     }, error => {
-      this.blogInformation = null;
+      this.blogInformation = [];
       refreshBtn.removeAttribute('disabled');
       refreshBtn.innerText = 'Aktualisieren';
       console.log(error);
