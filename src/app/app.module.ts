@@ -20,6 +20,7 @@ import {CommentService} from './service/comment.service';
 import {StripHtmlPipe} from './helper/strip-html.pipe';
 import {TrimHtmlPipe} from './helper/trim-html.pipe';
 import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
+import {CommentFilterComponent} from './component/comment-filter/comment-filter.component';
 
 const appRoutes: Routes = [
   {
@@ -71,7 +72,8 @@ const appRoutes: Routes = [
     BlogComponent,
     CommentComponent,
     StripHtmlPipe,
-    TrimHtmlPipe
+    TrimHtmlPipe,
+    CommentFilterComponent
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,6 @@ export class Comment {
   public title: string;
   public content: string;
 
-
   constructor() {
   }
 }

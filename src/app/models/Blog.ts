@@ -1,4 +1,4 @@
-export class BlogInformation {
+export class Blog {
   public hash: string;
   public name: string;
   public description: string;

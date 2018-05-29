@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BlogInformation} from '../../models/BlogInformation';
+import {Blog} from '../../models/Blog';
 import {BlogInformationService} from '../../service/blog-information.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -10,8 +10,8 @@ import {HandleError} from '../../helper/handleError';
   templateUrl: './blog.component.html'
 })
 export class BlogComponent extends HandleError implements OnInit {
-  public blogInformation: BlogInformation[] = [];
-  public singleBlogInformation: BlogInformation;
+  public blogInformation: Blog[] = [];
+  public singleBlogInformation: Blog;
   public createMode = false;
 
   constructor(private blogInformationService: BlogInformationService, private modalService: NgbModal) {
@@ -39,10 +39,10 @@ export class BlogComponent extends HandleError implements OnInit {
     });
   }
 
-  public openEditModal(content, information: BlogInformation) {
+  public openEditModal(content, information: Blog) {
     this.createMode = false;
     this.errorString = '';
-    this.singleBlogInformation = new BlogInformation();
+    this.singleBlogInformation = new Blog();
     this.singleBlogInformation.hash = information.hash;
     this.singleBlogInformation.name = information.name;
     this.singleBlogInformation.description = information.description;
@@ -66,7 +66,7 @@ export class BlogComponent extends HandleError implements OnInit {
   openCreateModal(content) {
     this.createMode = true;
     this.errorString = '';
-    this.singleBlogInformation = new BlogInformation();
+    this.singleBlogInformation = new Blog();
 
     this.modalService.open(content, {size: 'lg'}).result.then((result) => {
       if (result === 'save') {
@@ -82,9 +82,9 @@ export class BlogComponent extends HandleError implements OnInit {
     });
   }
 
-  public openDeleteModal(content, information: BlogInformation) {
+  public openDeleteModal(content, information: Blog) {
     this.errorString = '';
-    this.singleBlogInformation = new BlogInformation();
+    this.singleBlogInformation = new Blog();
     this.singleBlogInformation.hash = information.hash;
     this.singleBlogInformation.name = information.name;
     this.singleBlogInformation.description = information.description;

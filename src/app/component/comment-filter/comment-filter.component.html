@@ -1,0 +1,16 @@
+<button class="btn btn-info" (click)="openFilterModal(filterModal)">Filter</button>
+
+<ng-template #filterModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Filter</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Filter...
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('close')">Close</button>
+  </div>
+</ng-template>

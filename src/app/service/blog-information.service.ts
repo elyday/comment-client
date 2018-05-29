@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {BlogInformation} from '../models/BlogInformation';
+import {Blog} from '../models/Blog';
 import {ExtendedRequest} from 'extended-request';
 
 @Injectable()
@@ -12,22 +12,22 @@ export class BlogInformationService {
   }
 
   getAll() {
-    return this.http.get<BlogInformation[]>(this.endPoint);
+    return this.http.get<Blog[]>(this.endPoint);
   }
 
   getByHash(hash: string) {
-    return this.http.get<BlogInformation>(this.endPoint + '/' + hash);
+    return this.http.get<Blog>(this.endPoint + '/' + hash);
   }
 
-  create(blogInformation: BlogInformation) {
+  create(blogInformation: Blog) {
     return this.http.post(this.endPoint, blogInformation);
   }
 
-  update(blogInformation: BlogInformation) {
+  update(blogInformation: Blog) {
     return this.http.put(this.endPoint, blogInformation);
   }
 
-  delete(blogInformation: BlogInformation) {
+  delete(blogInformation: Blog) {
     return this.http.delete(this.endPoint + '/' + blogInformation.hash);
   }
 }

@@ -1,5 +1,6 @@
 <h1>Kommentare</h1>
 <button id="refreshBtn" class="btn btn-primary" (click)="getComments()">Aktualisieren</button>
+<app-comment-filter></app-comment-filter>
 <br><br>
 
 <div class="alert alert-danger" *ngIf="submitRequest && errorString != null && errorString != '' else success">
@@ -24,7 +25,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let comment of comments">
-    <td>{{comment.hash}}></td>
+    <td>{{comment.hash}}</td>
     <td>{{comment.authorName}} {{comment.authorMail ? "<" + comment.authorMail + ">" : ""}}</td>
     <td>{{comment.title}}</td>
     <td>{{comment.content | stripHtml | trimHtml}}</td>
