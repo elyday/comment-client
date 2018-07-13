@@ -5,7 +5,7 @@ import {Blog} from '../models/Blog';
 import {ExtendedRequest} from 'extended-request';
 
 @Injectable()
-export class BlogInformationService {
+export class BlogInformationWebservice {
   private endPoint = environment.apiUrl + '/api/blog';
 
   constructor(private http: HttpClient) {

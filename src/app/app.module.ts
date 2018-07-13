@@ -11,18 +11,19 @@ import {DashboardComponent} from './component/dashboard/dashboard.component';
 import {LoginComponent} from './component/login/login.component';
 import {AccessDeniedComponent} from './component/access-denied/access-denied.component';
 import {HttpClientModule} from '@angular/common/http';
-import {BlogInformationService} from './service/blog-information.service';
+import {BlogInformationWebservice} from './service/blog-information-webservice.service';
 import {BlogComponent} from './component/blog/blog.component';
 import {FormsModule} from '@angular/forms';
 import {JwtModule} from '@auth0/angular-jwt';
 import {CommentComponent} from './component/comment/comment.component';
-import {CommentService} from './service/comment.service';
+import {CommentWebservice} from './service/comment-webservice.service';
 import {StripHtmlPipe} from './helper/strip-html.pipe';
 import {TrimHtmlPipe} from './helper/trim-html.pipe';
 import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 import {CommentFilterComponent} from './component/comment-filter/comment-filter.component';
 import {ArticleComponent} from './component/article/article.component';
-import {ArticleService} from "./service/article.service";
+import {ArticleWebservice} from './service/article-webservice.service';
+import {FilterService} from './service/filter.service';
 
 const appRoutes: Routes = [
   {
@@ -103,9 +104,10 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthService,
-    BlogInformationService,
-    CommentService,
-    ArticleService
+    BlogInformationWebservice,
+    CommentWebservice,
+    ArticleWebservice,
+    FilterService
   ],
   bootstrap: [AppComponent]
 })

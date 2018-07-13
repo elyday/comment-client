@@ -13,18 +13,18 @@
   </div>
 </ng-template>
 
-<table class="table table-striped table-responsive-lg" *ngIf="comments.length; else noCommentsFound">
+<table class="table table-striped table-responsive-lg" *ngIf="filteredComments.length; else noCommentsFound">
   <thead>
   <tr>
     <th>Hash</th>
-    <th>Author</th>
+    <th>Autor</th>
     <th>Titel</th>
     <th>Inhalt</th>
     <th></th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let comment of comments">
+  <tr *ngFor="let comment of filteredComments">
     <td>{{comment.hash}}</td>
     <td>{{comment.authorName}} {{comment.authorMail ? "<" + comment.authorMail + ">" : ""}}</td>
     <td>{{comment.title}}</td>
@@ -76,7 +76,7 @@
   <div class="modal-body">
     <form #blogForm="ngForm">
       <div class="form-group">
-        <label for="authorName">Author Name</label>
+        <label for="authorName">Autor Name</label>
         <input type="text" class="form-control" id="authorName" name="authorName" placeholder="Author Name.."
                value="{{singleComment.authorName}}" [(ngModel)]="singleComment.authorName" required>
       </div>

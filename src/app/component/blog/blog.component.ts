@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Blog} from '../../models/Blog';
-import {BlogInformationService} from '../../service/blog-information.service';
+import {BlogInformationWebservice} from '../../service/blog-information-webservice.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {HttpErrorResponse} from '@angular/common/http';
 import {HandleError} from '../../helper/handleError';
@@ -14,7 +14,7 @@ export class BlogComponent extends HandleError implements OnInit {
   public singleBlogInformation: Blog;
   public createMode = false;
 
-  constructor(private blogInformationService: BlogInformationService, private modalService: NgbModal) {
+  constructor(private blogInformationService: BlogInformationWebservice, private modalService: NgbModal) {
     super();
   }
 

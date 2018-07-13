@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Comment} from '../models/Comment';
 
 @Injectable()
-export class CommentService {
+export class CommentWebservice {
   private endPoint = environment.apiUrl + '/api/comment';
 
   constructor(private http: HttpClient) {

@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BlogInformationService} from "../../service/blog-information.service";
+import {BlogInformationWebservice} from "../../service/blog-information-webservice.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
 import {Blog} from "../../models/Blog";
 import {Article} from "../../models/Article";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ArticleService} from "../../service/article.service";
+import {ArticleWebservice} from "../../service/article-webservice.service";
 import {HandleError} from "../../helper/handleError";
 import {HttpErrorResponse} from "@angular/common/http";
 
@@ -23,7 +23,7 @@ export class ArticleComponent extends HandleError implements OnInit, OnDestroy {
   public singleArticle: Article;
   public createMode = false;
 
-  constructor(private route: ActivatedRoute, private blogInformationService: BlogInformationService, private articleService: ArticleService, private modalService: NgbModal) {
+  constructor(private route: ActivatedRoute, private blogInformationService: BlogInformationWebservice, private articleService: ArticleWebservice, private modalService: NgbModal) {
     super();
   }
 

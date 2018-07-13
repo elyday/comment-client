@@ -1,24 +1,32 @@
 import {Component, OnInit} from '@angular/core';
-import {CommentService} from '../../service/comment.service';
+import {CommentWebservice} from '../../service/comment-webservice.service';
 import {Comment} from '../../models/Comment';
 import {HttpErrorResponse} from '@angular/common/http';
 import {HandleError} from '../../helper/handleError';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Filter} from '../../models/Filter';
+import {FilterService} from '../../service/filter.service';
 
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html'
 })
 export class CommentComponent extends HandleError implements OnInit {
-  public comments: Comment[] = [];
+  private originalComments: Comment[] = [];
+  public filteredComments: Comment[] = [];
   public singleComment: Comment;
+  private filter: Filter = new Filter();
 
-  constructor(private commentService: CommentService, private modalService: NgbModal) {
+  constructor(private commentService: CommentWebservice, private modalService: NgbModal, private filterService: FilterService) {
     super();
   }
 
   ngOnInit() {
     this.getComments();
+    this.filterService.eventEmitter.on('setFilter', (filter) => {
+      this.filter = filter;
+      this.filterComments();
+    });
   }
 
   getComments() {
@@ -27,7 +35,8 @@ export class CommentComponent extends HandleError implements OnInit {
     refreshBtn.innerText = 'Lade...';
 
     this.commentService.getAll().subscribe(data => {
-      this.comments = data['data'];
+      this.originalComments = data['data'];
+      this.filterComments();
       refreshBtn.removeAttribute('disabled');
       refreshBtn.innerText = 'Aktualisieren';
     }, error => {
@@ -95,6 +104,12 @@ export class CommentComponent extends HandleError implements OnInit {
     }, (reason) => {
       console.log(reason);
     });
+  }
+
+  private filterComments() {
+    console.log(this.originalComments);
+    this.filteredComments = this.originalComments.filter(value => value.authorName.indexOf(this.filter.author) >= 0 &&
+      value.title.indexOf(this.filter.title) >= 0 && value.hash.indexOf(this.filter.hash) >= 0);
   }
 
   protected handleError(error: HttpErrorResponse) {
