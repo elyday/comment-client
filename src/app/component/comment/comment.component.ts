@@ -47,26 +47,14 @@ export class CommentComponent extends HandleError implements OnInit {
   }
 
   openDetailModal(content, comment: Comment) {
-    this.singleComment = new Comment();
-    this.singleComment.hash = comment.hash;
-    this.singleComment.articleHash = comment.articleHash;
-    this.singleComment.authorName = comment.authorName;
-    this.singleComment.authorMail = comment.authorMail;
-    this.singleComment.title = comment.title;
-    this.singleComment.content = comment.content;
+    this.copyComment(comment);
 
     this.modalService.open(content, {size: 'lg'});
   }
 
   openEditModal(content, comment: Comment) {
     this.errorString = '';
-    this.singleComment = new Comment();
-    this.singleComment.hash = comment.hash;
-    this.singleComment.articleHash = comment.articleHash;
-    this.singleComment.authorName = comment.authorName;
-    this.singleComment.authorMail = comment.authorMail;
-    this.singleComment.title = comment.title;
-    this.singleComment.content = comment.content;
+    this.copyComment(comment);
 
     this.modalService.open(content, {size: 'lg'}).result.then((result) => {
       if (result === 'save') {
@@ -84,13 +72,7 @@ export class CommentComponent extends HandleError implements OnInit {
 
   openDeleteModal(content, comment: Comment) {
     this.errorString = '';
-    this.singleComment = new Comment();
-    this.singleComment.hash = comment.hash;
-    this.singleComment.articleHash = comment.articleHash;
-    this.singleComment.authorName = comment.authorName;
-    this.singleComment.authorMail = comment.authorMail;
-    this.singleComment.title = comment.title;
-    this.singleComment.content = comment.content;
+    this.copyComment(comment);
 
     this.modalService.open(content, {size: 'lg'}).result.then((result) => {
       if (result === 'yes') {
@@ -121,5 +103,15 @@ export class CommentComponent extends HandleError implements OnInit {
       }
 
     }
+  }
+
+  private copyComment(comment: Comment) {
+    this.singleComment = new Comment();
+    this.singleComment.hash = comment.hash;
+    this.singleComment.articleHash = comment.articleHash;
+    this.singleComment.authorName = comment.authorName;
+    this.singleComment.authorMail = comment.authorMail;
+    this.singleComment.title = comment.title;
+    this.singleComment.content = comment.content;
   }
 }

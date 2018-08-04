@@ -29,7 +29,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" (click)="c('delete')">Filter löschen</button>
+    <button type="button" class="btn btn-outline-danger" (click)="c('delete')" *ngIf="!filterDeleted">Filter löschen</button>
     <button type="button" class="btn btn-outline-success" (click)="c('submit')">Filtern</button>
     <button type="button" class="btn btn-outline-dark" (click)="c('close')">Schließen</button>
   </div>
