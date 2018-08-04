@@ -1,0 +1,36 @@
+<button class="btn btn-info" (click)="openFilterModal(filterModal)">Filter</button>
+
+<ng-template #filterModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Filter</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #blogForm="ngForm">
+      <div class="form-group">
+        <label for="hash">Hash</label>
+        <input type="text" class="form-control" id="hash" name="hash" placeholder="Hash.." value="{{filter.hash}}"
+               [(ngModel)]="filter.hash" required>
+      </div>
+
+      <div class="form-group">
+        <label for="author">Autor</label>
+        <input type="text" class="form-control" id="author" name="author" placeholder="Autor.."
+               value="{{filter.author}}" [(ngModel)]="filter.author" required>
+      </div>
+
+      <div class="form-group">
+        <label for="author">Titel</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Titel.." value="{{filter.title}}"
+               [(ngModel)]="filter.title" required>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="c('delete')" *ngIf="!filterDeleted">Filter löschen</button>
+    <button type="button" class="btn btn-outline-success" (click)="c('submit')">Filtern</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('close')">Schließen</button>
+  </div>
+</ng-template>

@@ -1,0 +1,91 @@
+<h1>Blog Verwaltung</h1>
+<button id="refreshBtn" class="btn btn-primary" (click)="getBlogInformation()">Aktualisieren</button>
+<button id="createBtn" class="btn btn-success" (click)="openCreateModal(editModal)">Hinzufügen</button>
+<br><br>
+
+<div class="alert alert-danger" *ngIf="submitRequest && errorString != null && errorString != '' else success">
+  {{errorString}}
+</div>
+
+<ng-template #success>
+  <div class="alert alert-success" *ngIf="submitRequest">
+    Die Aktion war erfolgreich.
+  </div>
+</ng-template>
+
+<table class="table table-striped" *ngIf="blogInformation.length; else noBlogFound">
+  <thead>
+  <tr>
+    <th>Hash</th>
+    <th>Name</th>
+    <th>Link</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let blog of blogInformation">
+    <td>{{blog.hash}}</td>
+    <td>{{blog.name}}</td>
+    <td><a href="{{blog.url}}" target="_blank">{{blog.url}}</a></td>
+    <td>
+      <span class="badge badge-info" routerLink="{{blog.hash}}/articles">Artikel</span>
+      <span class="badge badge-warning" (click)="openEditModal(editModal, blog)">Bearbeiten</span>
+      <span class="badge badge-danger" (click)="openDeleteModal(deleteModal, blog)">Löschen</span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #noBlogFound>
+  <div class="alert alert-warning">
+    Es wurde kein Blog Eintrag gefunden.
+  </div>
+</ng-template>
+
+<ng-template #editModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Blog {{singleBlogInformation.name}} {{createMode ? "erstellen" : "bearbeiten"}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #blogForm="ngForm">
+      <div class="form-group">
+        <label for="blogName">Name</label>
+        <input type="text" class="form-control" id="blogName" name="blogName" placeholder="Name.."
+               value="{{singleBlogInformation.name}}" [(ngModel)]="singleBlogInformation.name" required>
+      </div>
+      <div class="form-group">
+        <label for="blogDescription">Beschreibung</label>
+        <input type="text" class="form-control" id="blogDescription" name="blogDescription" placeholder="Beschreibung.."
+               value="{{singleBlogInformation.description}}" [(ngModel)]="singleBlogInformation.description" required>
+      </div>
+      <div class="form-group">
+        <label for="blogUrl">URL</label>
+        <input type="text" class="form-control" id="blogUrl" name="blogUrl" placeholder="URL..."
+               value="{{singleBlogInformation.url}}" [(ngModel)]="singleBlogInformation.url" required>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="c('save')">Speichern</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('close')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Blog {{singleBlogInformation.name}} löschen</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Du bist dabei einen Blog Eintrag zu löschen. <b>Bist du dir sicher?</b></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="c('yes')">Ja</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('close')">Nein</button>
+  </div>
+</ng-template>
